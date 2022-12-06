@@ -1,10 +1,48 @@
 import React from "react";
-import {ScrollView, StyleSheet,Text,TouchableOpacity,Button,View,Icon,Input, TextInput,StatusBar,Image,Dimensions, ImageBackground} from 'react-native';
+import {ScrollView, StyleSheet,Text,TouchableOpacity,Alert,View,Icon,Input, TextInput,StatusBar,Image,Dimensions, ImageBackground} from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Funcion Log in
 const Login = ({navigation})=>{
+  
+  const [user,setUser] = React.useState('');
+  const [pass,setPws] = React.useState('');
+  
+  const acceso = () => {
+
+      var URL = 'https://puebloconsaboruthh.com/AppPuebloconSabor/Login.php';
+      //var URL='https://172.15.1.21/prueba/loginn.php'
+      fetch(URL,{
+        method:'POST',
+        body: JSON.stringify({
+          email : user,
+          password : pass,
+        }),
+        headers:{
+          'Accept':'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+      .then((respuesta) => respuesta.json()) //Crear objecto "respuesta " y especificar que es de tipo json, O mejor dicho se obtiene la respuesta y se parsea a JSON.
+      .then((respuestaJSON) => {
+
+        if(respuestaJSON == "User_N"){
+
+          Alert.alert('El usuario NO existe!');
+
+        }else if (respuestaJSON == "ok"){
+
+          navigation.navigate('Home')
+
+        }else{
+          navigation.navigate('Registro')
+        }
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }
 
   const [ShowPassword, setShowPassword] = React.useState(false);
   
@@ -43,11 +81,15 @@ const Login = ({navigation})=>{
                 
                 
            </View>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Usuario'/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' keyboardType="email-address" 
+            placeholder='Usuario' onChangeText={user =>  setUser(user)}
+            value={user}/>
 
             <View style={styles.InputPws}>
 
-            <TextInput style={{flex:1}} color='#0B0B3B' secureTextEntry={!ShowPassword} placeholderTextColor='#FA0C7B' placeholder='Password'/>
+            <TextInput style={{flex:1}} color='#0B0B3B' secureTextEntry={!ShowPassword} placeholderTextColor='#FA0C7B' placeholder='Password'
+            onChangeText={pass => setPws(pass)}
+            value={pass}/>
             
             <MaterialCommunityIcons style={{paddingHorizontal:10}} name={ShowPassword ? "eye-off":"eye"} color='#FA0C7B' size={20}
             onPress={()=>{
@@ -56,7 +98,7 @@ const Login = ({navigation})=>{
             />
             </View>
             {/*Boton*/}
-            <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+            <TouchableOpacity onPress={()=> acceso()}>
             <Text style = {styles.botton}>
               Ingresar
             </Text>
@@ -133,7 +175,7 @@ const styles = StyleSheet.create({
         borderColor: '#FA0C7B',
         backgroundColor:'#F0640B',
         marginLeft:15,
-        marginRight:15
+        marginRight:15,
     },btnr:{
         borderWidth:1,
         borderRadius:30,

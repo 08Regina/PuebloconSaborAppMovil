@@ -1,13 +1,58 @@
 import React,{useState}from "react";
-import {ScrollView, StyleSheet,Text, birthdate, day, TouchableOpacity,Button,View,Icon,Input, TextInput,StatusBar,Image,Dimensions, ImageBackground} from 'react-native';
+import {ScrollView, StyleSheet,Text, Alert, day, TouchableOpacity,Button,View,Icon,Input, TextInput,StatusBar,Image,Dimensions, ImageBackground} from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Funcion Log in
 const Registro = ({navigation})=>{
 
+  
+  const [Nombre, setNombre] = React.useState('');
+  const [Apellidop, setApaterno] = React.useState('');
+  const [Apellidom, setAmaterno] = React.useState('');
+  const [Telefono, setTelefono] = React.useState('');
+  const [Username, setUsername] = React.useState('');
+  const [Correo, setCorreo] = React.useState('');
+  const [Password, setPassword] = React.useState('');
+
+  const Registrarme = () =>{
+
+      //Alert.alert('Funciona');
+      var URL = 'https://ahh.proyectostics.com/AppMovil/Registrar.php';
+
+      fetch(URL,{
+          method:'POST',
+          body: JSON.stringify({
+              nombre : Nombre,
+              apaterno: Apellidop,
+              amaterno: Apellidom,
+              tel: Telefono,
+              usuario: Username,
+              email: Correo,
+              password : Password,
+          }),
+          headers:{
+              'Accept':'application/json',
+              'Content-Type': 'application/json'
+          },
+      })
+      .then((respuesta) => respuesta.json())
+      .then((respuestaJSON) => {
+          if(respuestaJSON == "Existe_Us"){
+              Alert.alert('El usuario ya esta en uso')
+          }else if(respuestaJSON == "OK"){
+              navigation.navigate('Login');
+          }else{
+              Alert.alert('Al parecer hubo un problema, Intentalo más tarde')
+          }
+      })
+      .catch((error) => {
+          console.log(error);
+      })
+
+  }
+
   const [ShowPassword, setShowPassword] = React.useState(false);
-  const [date, setDate] = useState('09-10-2021');
         return(
             <ScrollView style={{flex:1,backgroundColor:'#ffffff'}} 
             showsVerticalScrollIndicator={false}>
@@ -48,10 +93,9 @@ const Registro = ({navigation})=>{
             <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Nombre'/>
             <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Apellido Paterno'/>
             <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Apellido Paterno'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' value={birthdate-day} placeholder='Fecha de Nacimiento'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B'  placeholder='Telefono'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B'  placeholder='Usuario'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B'  placeholder='Email'/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Telefono' keyboardType="phone-pad"/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Usuario'/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Email' keyboardType="email-address"/>
             <View style={styles.InputPws}>
 
             <TextInput style={{flex:1}} color='#0B0B3B' secureTextEntry={!ShowPassword} placeholderTextColor='#FA0C7B' placeholder='Password'/>
