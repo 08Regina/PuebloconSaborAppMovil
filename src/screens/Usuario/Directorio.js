@@ -1,7 +1,24 @@
-import { View, Text, StyleSheet, Image, ScrollView ,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image, ScrollView ,FlatList,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
+import React,  { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Directorio=({navigation})=> {
+    const [directorio, setDirectorio]=useState([])
+    useEffect(()=>{
+        async function  getAllDirectorios(){
+            try{
+                const directorios = await axios.get('http://192.168.43.57/proyectopuebloconsabor/public/locals')
+                console.log(directorios.data.data);
+                setDirectorio(directorios.data.data);
+                console.log(directorio);
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+        getAllDirectorios()
+    }, []);
+
   return (
     <View style={{
         backgroundColor:"#FFF",
@@ -42,31 +59,42 @@ const Directorio=({navigation})=> {
             showsVerticalScrollIndicator={false}>
         
         {/*Locales*/}
+        
         <View style={{marginRight:15,marginLeft:15}}>
+             
+        <FlatList data={directorio} 
+                renderItem={({item})    =>
+                <View style={styles.row }>
+                    <View style={[styles.box, styles.box2]}>
+                        
+                    <Image
+                            source={require('../../images/local.jpg')}
+                            style={styles.imgmejor}
+                        />
+                    </View>
+                    
+                    <View style={[styles.box, styles.two]}>
+                    
+                    
+                    
+                        <Text style={styles.txtTituloL}>{item.nombre}
+                        </Text>
+                        <Text style={styles.txtinf}>{item.descripcion}
+                        </Text>
+                        <TouchableOpacity onPress={()=>navigation.navigate("Locales", item)}>
+                            <Text style = {styles.botton}>
+                            Ver
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                    
+                }
+        />
           
  
-          <View style={styles.row }>
-            <View style={[styles.box, styles.box2]}>
-            <Image
-                    source={require('../../images/local.jpg')}
-                    style={styles.imgmejor}
-                />
-            </View>
-            <View style={[styles.box, styles.two]}>
-                <Text style={styles.txtTituloL}>Comedor Rosita
-                </Text>
-                <Text style={styles.txtinf}>Descripcion del Local
-                </Text>
-                <TouchableOpacity onPress={()=>navigation.navigate("Locales")}>
-                    <Text style = {styles.botton}>
-                    Ver
-                    </Text>
-                </TouchableOpacity>
-            </View>
-          </View>
- 
       </View>
-      {/*Locales*/}
+      {/*Locales}
       <View style={{marginRight:15,marginLeft:15 , marginTop:15}}>
           
  
@@ -90,7 +118,7 @@ const Directorio=({navigation})=> {
             </View>
           </View>
  
-      </View>
+            </View>{*/}
           
         </ScrollView> 
                
@@ -132,13 +160,13 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         color:'#FA0C7B',
         textAlign:'center', 
-        fontSize:20,
+        fontSize:15,
         
     },
     txtinf:{
         color:'#0b0b3b',
-        textAlign:'center', 
-        fontSize:20,
+        textAlign:'justify', 
+        fontSize:12,
         
     },
     row: {

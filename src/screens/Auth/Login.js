@@ -97,7 +97,7 @@ const Login = ({navigation})=>{
             }} 
             />
             </View>
-            {/*Boton*/}
+            {/*Boton-*/}
             <TouchableOpacity onPress={()=> acceso()}>
             <Text style = {styles.botton}>
               Ingresar

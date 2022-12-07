@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import HomeScreen from '../Usuario/Home';
+import Donar from '../Usuario/donar';
 import Directorio from '../Usuario/Directorio';
 import Huejutla from '../Usuario/Huejutla';
 import CustonDrawer from './CustonDrawer';
@@ -32,6 +33,11 @@ const MyDrawer = () => {
                 drawerIcon:({color})=>(
                 <Ionicons name="ribbon-outline" size={22} color={color}/>
             )}}/>
+            <Drawer.Screen name={screen.mydonar.drawer} component={Donar} options={{title:"Donar",
+                drawerIcon:({color})=>(
+                <Ionicons name="ribbon-outline" size={22} color={color}/>
+            )}}/>
+            
         </Drawer.Navigator>
     
   );

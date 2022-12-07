@@ -1,12 +1,50 @@
-import { View, Text, StyleSheet, Image, ScrollView ,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
-import React from 'react'
-
+import { View, Text, StyleSheet, Image, ScrollView ,FlatList,FlasList,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
+//import React from 'react';
+import React,  { useState, useEffect } from 'react';
+import axios from 'axios';
+//const baseUrl = 'http://127.0.0.1:8000/api/huejutlas';
+const URL='http://192.168.1.69/proyectopuebloconsabor/public/huejutlas'
 const Huejutla=({navigation})=> {
+    /*const [huejutlas, setHuejutlas]=useState([])
+    useEffect(()=>{
+        getHuejutla()
+    },[])
+    const getHuejutla=async()=>{
+        const {data}= await axios.get(URL)
+        const {huejutlas}=data
+        setHuejutlas(huejutlas)
+        console.log(data)
+    }
+    const renderItem = ({item})=>(
+        <ItemHuejutla
+        Historia={item.Descripcion}
+        />
+    )*/
+    
+    const [huejutlas, setHuejutlas]=useState([])
+    useEffect(()=>{
+        async function getAllHuejutlas(){
+            try{
+                const huejutlas = await axios.get('http://192.168.1.69/proyectopuebloconsabor/public/huejutlas')
+                console.log(huejutlas.data)
+                setHuejutlas(huejutlas.data)
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+        getAllHuejutlas()
+    }, []);
+
+   
   return (
+    
     <View style={{
         backgroundColor:"#FFF",
         flex:1
     }}>
+        
+        
         <View style={styles.heade}>
                {/*}<Image
                     source={require('../../images/logotipo-pueblos-con-sabor.png')}
@@ -32,22 +70,37 @@ const Huejutla=({navigation})=> {
                
         </View>
         
+        <ScrollView style={{flex:1,backgroundColor:'#ffffff'}} 
+            showsVerticalScrollIndicator={false}>
                {/**/}
         <View style={{padding:20}}>
             <Text style={styles.txtTitulo}>Huejutla</Text>
 
         </View>
                
-        <ScrollView style={{flex:1,backgroundColor:'#ffffff'}} 
-            showsVerticalScrollIndicator={false}>
+        
         
             <View style={{padding:20}}>
-                <Text style={styles.txtinf}>Informacion</Text>
+                
+                <FlatList data={huejutlas} 
+                renderItem={({item})=><Text style={styles.txtinf}>{item.Historia}</Text>}
+                />  
+                
+            </View>
+            <View style={{padding:20}}>
+            <Text style={styles.txtTitulo}>* Pueblo con Sabor*</Text>
 
+        </View>
+               
+            <View style={{padding:20}}>
+                
+                <FlatList data={huejutlas} 
+                renderItem={({item})=><Text style={styles.txtinf}>{item.Descripcion}</Text>}
+                />  
             </View>
           
         </ScrollView> 
-               
+        
     </View>
   )
 }
@@ -84,7 +137,7 @@ const styles = StyleSheet.create({
     },
     txtinf:{
         color:'#0b0b3b',
-        textAlign:'center', 
+        textAlign:'justify', 
         fontSize:20,
         
     },

@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, Image, ScrollView ,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
 import React from 'react'
 
-const Opinion=({navigation})=> {
+const Opinion=({navigation,route})=> {
+    const opinion = route.params;
+    console.log(opinion);
   return (
     <View >
          <Text>Opinion</Text>

@@ -8,9 +8,12 @@ const DirectorioStack ={
 const HuejutlaStack ={
     drawer:"HuejutlaDrawer",
 }
-
+const DonarStack ={
+    drawer:"DonarDrawer",
+}
 export const screen={
     myhome:HomeStack,
     mydirectorio:DirectorioStack,
     myhuejutla:HuejutlaStack,
+    mydonar:DonarStack,
 };

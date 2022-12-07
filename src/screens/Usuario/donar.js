@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, Image, ScrollView ,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
 import React from 'react'
 
-const Locales=({navigation,route})=> {
-    const local = route.params;
-    console.log(local);
+const Donar=({navigation})=> {
   return (
     <View style={{
         backgroundColor:"#FFF",
         flex:1
     }}>
-        <View style={styles.heade}>
+        
+         <ScrollView style={{flex:1,backgroundColor:'#ffffff'}} 
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.heade}>
                {/*}<Image
                     source={require('../../images/logotipo-pueblos-con-sabor.png')}
                     {/*}style={{
@@ -18,47 +19,51 @@ const Locales=({navigation,route})=> {
                         marginTop:50
                     }}
                 />{*/}
-            <View style={styles.conttyl}>
-                <View style={{width:"65%"}}>
-                    <Text style={styles.texthe}>Pueblo Con Sabor</Text>
+                <View style={styles.conttyl}>
+                    <View style={{width:"65%"}}>
+                        <Text style={styles.texthe}>Donar</Text>
+                    </View>
+                    <View style={{width:"35%",alignItems:"flex-end"}}>
+                        <TouchableOpacity >
+                            <Image
+                                source={require('../../images/logo.png')}
+                                style={styles.imglo}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{width:"35%",alignItems:"flex-end"}}>
+               
+            </View>
+        
+                {/**/}
+            <View style={{padding:20}}>
+                <Text style={styles.txtTitulo}>Donacion</Text>
+                <View style={styles.viewimg}>
                     <Image
-                        source={require('../../images/logo.png')}
-                        style={styles.imglo}
+                        source={require('../../images/donarr.png')}
+                        style={styles.imgmejor}
                     />
                 </View>
+                 {/*Boton*/}
+                    <TouchableOpacity onPress={()=>navigation.navigate("Opinion")}>
+                    <Text style = {styles.botton}>
+                    Donar $10.00
+                    </Text>
+                    </TouchableOpacity>
+                {/*Boton*/}
+                <TouchableOpacity onPress={()=>navigation.navigate("Ruta")}>
+                    <Text style = {styles.botton}>
+                    Donar $50.00
+                    </Text>
+                </TouchableOpacity>
+                {/*Boton*/}
+                <TouchableOpacity onPress={()=>navigation.navigate("Ruta")}>
+                    <Text style = {styles.botton}>
+                    Donar $100.00
+                    </Text>
+                </TouchableOpacity>
             </View>
                
-        </View>
-        
-               {/**/}
-        
-        <ScrollView style={{flex:1,backgroundColor:'#ffffff'}} 
-            showsVerticalScrollIndicator={false}>
-        
-        <View style={{padding:20}}>
-            <Text style={styles.txtTitulo}>{local.nombre}</Text>
-
-        </View>
-        <View style={styles.viewimg}>
-        <Image
-            source={require('../../images/local.jpg')}
-            style={styles.imgmejor}
-        />
-        </View>
-             {/*Boton*/}
-            <TouchableOpacity onPress={()=>navigation.navigate("Opinion")}>
-            <Text style = {styles.botton}>
-              Escribir una Opinion
-            </Text>
-            </TouchableOpacity>
-           {/*Boton*/}
-           <TouchableOpacity onPress={()=>navigation.navigate("Ruta")}>
-            <Text style = {styles.botton}>
-              Ruta
-            </Text>
-            </TouchableOpacity>
         </ScrollView> 
                
     </View>
@@ -67,7 +72,7 @@ const Locales=({navigation,route})=> {
 const styles = StyleSheet.create({
     heade: {
         backgroundColor:"#F0640B",
-        height:170,
+        height:150,
         borderBottomLeftRadius:30,
         borderBottomRightRadius:30,
         paddingHorizontal:20
@@ -130,4 +135,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Locales
+export default Donar
