@@ -1,7 +1,47 @@
 import { View, Text, StyleSheet, Image, ScrollView ,TextInput, LinearGradient, TouchableOpacity} from 'react-native'
 import React from 'react'
+import MapView, { Callout, Marker, Polyline } from 'react-native-maps';
+import * as Location from 'expo-location';
 
-const Ruta=({navigation})=> {
+
+const Ruta=({navigation,route})=> {
+    const local = route.params;
+    console.log(local);
+
+    const [pin, setPin] = React.useState({
+        latitude: 21.13293,
+        longitude: -98.410035,
+    });
+    
+    const Restaurante = {
+        latitude: parseFloat(local.latitud),
+        longitude: parseFloat(local.longitud),
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+    };
+
+
+    React.useEffect(() => {
+        (async () => {
+          
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            console.log('Permission to access location was denied');
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          console.log(location);
+    
+          setPin({
+            latitude:location.coords.latitude,
+            longitude:location.coords.longitude,
+          });
+          
+        })();
+      }, []);
+
+
   return (
     <View style={{
         backgroundColor:"#FFF",
@@ -38,14 +78,43 @@ const Ruta=({navigation})=> {
             <View style={{padding:20}}>
                 <Text style={styles.txtTitulo}>Mapa</Text>
 
+                
+
             </View>
                
         </ScrollView> 
+
+        <MapView 
+                    style={styles.map} 
+                    initialRegion={{
+                    latitude: parseFloat(local.latitud),
+                    longitude: parseFloat(local.longitud),
+                    latitudeDelta: 0.0006,
+                    longitudeDelta: 0.0006,
+                    }}
+                    showsUserLocation={true}
+                >
+                    <Marker 
+                    coordinate={Restaurante}
+                    title={local.nombre}
+                    >
+                    </Marker>
+                    <Polyline
+                    coordinates={[Restaurante, pin]} //specify our coordinates
+                    strokeColor={"#000"}
+                    strokeWidth={3}
+                    lineDashPattern={[1]}
+                />
+                </MapView>
                
     </View>
   )
 }
 const styles = StyleSheet.create({
+    map: {
+        width: '100%',
+        height: '100%',
+    },
     heade: {
         backgroundColor:"#F0640B",
         height:150,

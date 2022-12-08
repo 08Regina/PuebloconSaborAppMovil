@@ -54,11 +54,12 @@ const Locales=({navigation,route})=> {
             </Text>
             </TouchableOpacity>
            {/*Boton*/}
-           <TouchableOpacity onPress={()=>navigation.navigate("Ruta")}>
+           <TouchableOpacity onPress={()=>navigation.navigate("Ruta", local)}>
             <Text style = {styles.botton}>
               Ruta
             </Text>
             </TouchableOpacity>
+            
         </ScrollView> 
                
     </View>
