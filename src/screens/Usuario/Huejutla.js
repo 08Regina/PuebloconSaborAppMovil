@@ -25,7 +25,7 @@ const Huejutla=({navigation})=> {
     useEffect(()=>{
         async function getAllHuejutlas(){
             try{
-                const huejutlas = await axios.get('http://192.168.1.69/proyectopuebloconsabor/public/huejutlas')
+                const huejutlas = await axios.get('https://puebloconsaboruthh.com/api/huejutlas')
                 console.log(huejutlas.data)
                 setHuejutlas(huejutlas.data)
             }

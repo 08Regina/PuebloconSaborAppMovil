@@ -7,7 +7,7 @@ const Directorio=({navigation})=> {
     useEffect(()=>{
         async function  getAllDirectorios(){
             try{
-                const directorios = await axios.get('http://192.168.43.57/proyectopuebloconsabor/public/locals')
+                const directorios = await axios.get('https://puebloconsaboruthh.com/api/locals')
                 console.log(directorios.data.data);
                 setDirectorio(directorios.data.data);
                 console.log(directorio);
