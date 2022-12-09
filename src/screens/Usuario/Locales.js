@@ -48,7 +48,7 @@ const Locales=({navigation,route})=> {
         />
         </View>
              {/*Boton*/}
-            <TouchableOpacity onPress={()=>navigation.navigate("Opinion")}>
+             <TouchableOpacity onPress={()=>navigation.navigate("Opinion",local)}>
             <Text style = {styles.botton}>
               Escribir una Opinion
             </Text>
