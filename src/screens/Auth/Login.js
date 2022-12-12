@@ -9,8 +9,9 @@ const Login = ({navigation})=>{
   const [user,setUser] = React.useState('');
   const [pass,setPws] = React.useState('');
   
-  const acceso = () => {
-
+  function acceso(user, pass){
+      console.log("usuario => ", user, " pass => ", pass);
+      
       var URL = 'https://puebloconsaboruthh.com/AppPuebloconSabor/Login.php';
       //var URL='https://172.15.1.21/prueba/loginn.php'
       fetch(URL,{
@@ -42,7 +43,7 @@ const Login = ({navigation})=>{
       .catch((error)=>{
         console.log(error);
       })
-    }
+  }
 
   const [ShowPassword, setShowPassword] = React.useState(false);
   
@@ -98,7 +99,8 @@ const Login = ({navigation})=>{
             />
             </View>
             {/*Boton-onPress={()=> acceso()}*/}
-            <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+            {/*<TouchableOpacity onPress={()=>navigation.navigate("Home")}>*/}
+            <TouchableOpacity onPress={()=>acceso(user, pass)}>
             <Text style = {styles.botton}>
               Ingresar
             </Text>

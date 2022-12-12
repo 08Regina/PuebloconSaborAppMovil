@@ -7,29 +7,29 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Registro = ({navigation})=>{
 
   
-  const [Nombre, setNombre] = React.useState('');
-  const [Apellidop, setApaterno] = React.useState('');
-  const [Apellidom, setAmaterno] = React.useState('');
-  const [Telefono, setTelefono] = React.useState('');
+  const [nombres, setNombre] = React.useState('');
+  const [apellidop, setApaterno] = React.useState('');
+  const [apellidom, setAmaterno] = React.useState('');
+  const [tel, setTelefono] = React.useState('');
   const [Username, setUsername] = React.useState('');
   const [Correo, setCorreo] = React.useState('');
   const [Password, setPassword] = React.useState('');
 
-  const Registrarme = () =>{
-
+  function Registrarme(nombres, apellidop, apellidom, tel, Username, Correo, Password){
       //Alert.alert('Funciona');
-      var URL = 'https://ahh.proyectostics.com/AppMovil/Registrar.php';
-
-      fetch(URL,{
+      var URL = 'https://puebloconsaboruthh.com/AppPuebloconSabor/registro.php';
+        console.log("Nombre => ", nombres, "Apellidop => ", apellidop, "ApellidoM => ", apellidom, "Telefono => ", tel);
+      
+        fetch(URL,{
           method:'POST',
           body: JSON.stringify({
-              nombre : Nombre,
-              apaterno: Apellidop,
-              amaterno: Apellidom,
-              tel: Telefono,
-              usuario: Username,
+              Nombre : nombres,
+              Apellidop: apellidop,
+              ApellidoM: apellidom,
+              Telefono: tel,
+              Usuario: Username,
               email: Correo,
-              password : Password,
+              password : Password
           }),
           headers:{
               'Accept':'application/json',
@@ -38,17 +38,23 @@ const Registro = ({navigation})=>{
       })
       .then((respuesta) => respuesta.json())
       .then((respuestaJSON) => {
-          if(respuestaJSON == "Existe_Us"){
-              Alert.alert('El usuario ya esta en uso')
-          }else if(respuestaJSON == "OK"){
+         console.log("respuesta json ",respuestaJSON)
+         if ((Correo.length==0) || (Password.length==0) || (nombres.length==0) || (apellidop.length==0) || (apellidom.length==0)|| (tel.length==0)|| (Username.length==0)){
+            alert("Campos Requeridos");
+          }else if (Password.length<8){
+            alert("Minimum 08 characters required!!!");
+          }
+          else if(respuestaJSON == "ok"){
+                Alert.alert('Ay un problema, intentelo mas tarde')
               navigation.navigate('Login');
           }else{
-              Alert.alert('Al parecer hubo un problema, Intentalo más tarde')
+            Alert.alert('Registrado')
+            navigation.navigate('Login');
           }
       })
       .catch((error) => {
-          console.log(error);
-      })
+          console.log("error respuesta => ",error);
+      }) 
 
   }
 
@@ -90,15 +96,15 @@ const Registro = ({navigation})=>{
            </View>
            {/*Inputs*/}
                    
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Nombre'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Apellido Paterno'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Apellido Paterno'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Telefono' keyboardType="phone-pad"/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Usuario'/>
-            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Email' keyboardType="email-address"/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Nombre' onChangeText={(nombres) =>setNombre(nombres)}/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Apellido Paterno' onChangeText={(apellidop =>setApaterno(apellidop))}/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Apellido Paterno' onChangeText={(apellidom) =>setAmaterno(apellidom)}/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Telefono' keyboardType="phone-pad" onChangeText={(tel) =>setTelefono(tel)}/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Usuario' onChangeText={(Username) =>setUsername(Username)}/>
+            <TextInput style={styles.textInput} placeholderTextColor='#FA0C7B' placeholder='Email' keyboardType="email-address" onChangeText={(Correo) =>setCorreo(Correo)}/>
             <View style={styles.InputPws}>
 
-            <TextInput style={{flex:1}} color='#0B0B3B' secureTextEntry={!ShowPassword} placeholderTextColor='#FA0C7B' placeholder='Password'/>
+            <TextInput style={{flex:1}} color='#0B0B3B' secureTextEntry={!ShowPassword} placeholderTextColor='#FA0C7B' placeholder='Password' onChangeText={(Password) =>setPassword(Password)}/>
             
             <MaterialCommunityIcons style={{paddingHorizontal:10}} name={ShowPassword ? "eye-off":"eye"} color='#FA0C7B' size={20}
             onPress={()=>{
@@ -107,7 +113,7 @@ const Registro = ({navigation})=>{
             />
             </View>
             {/*Boton*/}
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() =>Registrarme(nombres, apellidop, apellidom, tel, Username, Correo, Password)}>
             <Text style = {styles.botton}>
               Ingresar
             </Text>
